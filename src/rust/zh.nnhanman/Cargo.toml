@@ -1,0 +1,21 @@
+[package]
+name = "nnhanman"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = "s"
+strip = true
+lto = true
+
+[dependencies]
+aidoku = { git = "https://github.com/Aidoku/aidoku-rs", features = ["helpers"] }
+strum_macros = "0.26.2"
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
