@@ -10,7 +10,8 @@
 ## 源
 | 名称 | 状态 |
 | --- | --- |
-| 鸟鸟韩漫 | ✅ |
+| [鸟鸟韩漫](https://nnhanman9.com/) | ✅ |
+| [哔哩漫画](https://www.bilicomic.net/) | ✅ | 
 
 ## License
 Licensed under either of Apache License, version 2.0 or MIT license at your option.
