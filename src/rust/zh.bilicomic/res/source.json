@@ -1,0 +1,16 @@
+{
+	"info": {
+		"id": "zh.bilicomic",
+		"lang": "zh",
+		"name": "哔哩漫画",
+		"version": 1,
+		"url": "https://www.bilicomic.net/",
+		"nsfw": 1,
+		"languages": [
+			{
+				"code": "zh",
+				"default": true
+			}
+		]
+	}
+}
