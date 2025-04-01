@@ -24,6 +24,9 @@ pub enum Url<'a> {
 
   #[strum(to_string = "{id}")]
   Manga { id: &'a str },
+
+  #[strum(to_string = "/top/{path}/1.html")]
+  Top { path: String },
 }
 
 impl<'a> Url<'a> {

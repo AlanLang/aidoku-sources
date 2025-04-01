@@ -5,9 +5,8 @@ mod url;
 use aidoku::{
   error::Result,
   prelude::*,
-  std::net::Request,
-  std::{String, Vec},
-  Chapter, Filter, Manga, MangaPageResult, Page,
+  std::{net::Request, String, Vec},
+  Chapter, Filter, Listing, Manga, MangaPageResult, Page,
 };
 use alloc::{string::ToString, vec};
 use parser::MangaListResponse;
@@ -21,6 +20,49 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
   let manga_list_url = Url::from((filters, page));
   let filters_page = manga_list_url.get_html()?;
   return filters_page.get_page_result();
+}
+
+#[get_manga_listing]
+fn get_manga_listing(listing: Listing, _: i32) -> Result<MangaPageResult> {
+  let path = match listing.name.as_str() {
+    "月点击榜" => "monthvisit",
+    "周点击榜" => "weekvisit",
+    "月推荐榜" => "monthvote",
+    "周推荐榜" => "weekvote",
+    "收藏榜" => "goodnum",
+    "新书榜" => "newhot",
+    _ => "monthvisit",
+  };
+  let html = Url::Top {
+    path: path.to_string(),
+  }
+  .get_html()?;
+  let manga: Vec<Manga> = html
+    .select("#list_content")
+    .select("li")
+    .array()
+    .map(|li| {
+      let node = li.as_node().unwrap();
+      let cover = node
+        .select(".book-cover")
+        .select("img")
+        .attr("data-src")
+        .read();
+      let title = node.select(".book-title").text().read();
+      let url = node.select("a").attr("href").read();
+      Manga {
+        id: url.clone(),
+        url: url.clone(),
+        title,
+        cover,
+        ..Default::default()
+      }
+    })
+    .collect();
+  Ok(MangaPageResult {
+    manga,
+    has_more: false,
+  })
 }
 
 #[get_manga_details]
